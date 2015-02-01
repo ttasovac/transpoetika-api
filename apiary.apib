@@ -6,10 +6,22 @@ Transpoetika API is a *Serbian dictionary service* developed at the Belgrade Cen
 # Group Forms
 Forms related resources of the **Transpoetika API**
 
-## Forms Collection [/forms?fields=limit,offset]
+## Forms Collection [/forms.{content_type}?fields=limit,offset]
 ### List all Forms [GET]
 + Parameters
-
+    
+    + content_type (required, string) 
+    
+        Content type of the response. 
+    
+        > ```json``` = Javascript Object Notation formatted response
+        >
+        > ```xml``` = Extensible Markup Language formatted response
+    
+        + Values
+            + `json`
+            + `xml`
+        
     + limit = `10` (optional, number) ... The maximum number of results to return.
     + offset = `0` (optional, number) ... The pagination of results to return.
 
