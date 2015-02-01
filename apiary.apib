@@ -1,0 +1,51 @@
+FORMAT: 1A
+
+# Transpoetika API
+Transpoetika API is a *Serbian dictionary* service developed at the Belgrade Center for Digital Humanities.
+
+# Group Forms
+Forms related resources of the **Transpoetika API**
+
+## Forms Collection [/forms?fields=limit,offset]
+### List all Forms [GET]
++ Parameters
+
+    + limit = `10` (optional, number) ... The maximum number of results to return.
+    + offset = `0` (optional, number) ... The pagination of results to return.
+    
++ Response 200 (application/json)
+
+        [{
+          "id": 1, "orth": "руку", "lemma": "рука", "multext": Nasjdjf
+        }, {
+          "id": 2, "orth": "руци", "lemma": "рука", "multext": Njfkdjf
+        }]
+
+### Create a Form [POST]
++ Request (application/json)
+
+        { "title": "Buy cheese and bread for breakfast." }
+
++ Response 201 (application/json)
+
+        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+
+## Note [/notes/{id}]
+A single Form object with all its details
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
+
+### Retrieve a Form [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-My-Header: The Value
+
+    + Body
+
+            { "id": 2, "title": "Pick-up posters from post-office" }
+
+### Remove a Form [DELETE]
++ Response 204
