@@ -1,41 +1,56 @@
 FORMAT: 1A
+HOST: https://api.transpoetika.org/v1
 
 # Transpoetika API
-Transpoetika API is a *Serbian dictionary service* developed at the Belgrade Center for Digital Humanities.
+Transpoetika API is a *Serbian dictionary web-service* developed at the Belgrade Center for Digital Humanities.
+
+Content type negotiation for all calls will be done exlusively using headers. 
 
 # Group Forms
 Forms related resources of the **Transpoetika API**
 
-## Forms Collection [/forms.{content_type}?fields=limit,offset]
-### List all Forms [GET]
+## Forms Collection [/forms/{wordForm}?fields=limit,offset,id,orth,lemma,multext]
+### List all forms for a particular word [GET]
+
 + Parameters
-    
-    + content_type (required, string) 
-    
-        Content type of the response. 
-    
-        > ```json``` = Javascript Object Notation formatted response
-        >
-        > ```xml``` = Extensible Markup Language formatted response
-    
-        + Values
-            + `json`
-            + `xml`
-        
-    + limit = `10` (optional, number) ... The maximum number of results to return.
-    + offset = `0` (optional, number) ... The pagination of results to return.
+
+    + wordForm (required, string)
+    + limit = `10` (optional, int) ... The maximum number of results to return.
+    + offset = `0` (optional, int) ... The pagination of results to return.
+    + id = `yes` (optional, boolean) ... Include the id of the form in response. Inlcuded by default. 
+    + orth = `yes` (optional, boolean) ... Include the orth of the form in response. Included by default.
+    + lemma = `yes` (optional, boolean) ... Include the lemma of the form in response. 
+    + multext = `yes` (optional, boolean) ... Include the morphosyntactic analysis of the form in response. 
 
 + Response 200 (application/json)
 
-        [{
-          "id": 1, "orth": "руку", "lemma": "рука", "multext": Nasjdjf
-        }, {
-          "id": 2, "orth": "руци", "lemma": "рука", "multext": Njfkdjf
-        }]
+
+    + Body
+
+            ```
+            [{
+              "id": 1, "orth": "руку", "lemma": "рука",     "multext": Nasjdjf
+            }, {
+              "id": 2, "orth": "руци", "lemma": "рука",     "multext": Njfkdjf
+            }]
+            ```
 
 + Response 200 (application/xml)
 
-        <response>test</response>
+            <meta>
+                <total>10</total>
+                <limit>10</limit>
+                <offset>0</offset>
+            </meta>
+            <dictionary>
+                <forms>
+                    <id>1</id>
+                    <orth>руку</orth>
+                    <lemma>рука</lemma>
+                    <multext>Nasjdjf</multext>
+                </forms>
+            </dictionary>
+            
 
 ### Create a Form [POST]
 + Request (application/json)
