@@ -2,25 +2,40 @@ FORMAT: 1A
 HOST: https://api.transpoetika.org/v1
 
 # Transpoetika API
-Transpoetika API is a *Serbian dictionary web-service* developed at the Belgrade Center for Digital Humanities.
+Transpoetika API is a *Serbian Lexical Web-Service (SLaWS)* developed at the Belgrade Center for Digital Humanities.
 
-Content type negotiation for all calls will be done exlusively using headers. 
+##Content-Type Negotiation
+Transpoetika API supports both XML and JSON via a content negotiation mechanism using HTTP headers.
+The client must send an appropriate Accept header (either application/json or application/xml with each call. 
+Calls without an Accept header result in an error.
 
-# Group Forms
-Forms related resources of the **Transpoetika API**
+The same values should be used in the Content-Type HTTP header when submitting data in the request body 
+(POST and PUT methods). *Note*: `POST` and `PUT` methods are not implemented yet. 
 
-## Forms Collection [/forms/{wordForm}?fields=limit,offset,id,orth,lemma,multext]
-### List all forms for a particular word [GET]
+# Group Morphology
+**Transpoetika API** resources dealing with orthographic forms, lemmas and
+morphsyntactic specifications of individual tokens. 
+
+## Identifying Morphosyntactic Forms [/forms/{wordForm}?fields=limit,offset,oblique,id,orth,lemma,multext]
+### List all forms for a particular token [GET]
 
 + Parameters
 
     + wordForm (required, string)
     + limit = `10` (optional, int) ... The maximum number of results to return.
     + offset = `0` (optional, int) ... The pagination of results to return.
-    + id = `yes` (optional, boolean) ... Include the id of the form in response. Inlcuded by default. 
-    + orth = `yes` (optional, boolean) ... Include the orth of the form in response. Included by default.
+    + oblique = `yes` (optional, boolean) ... By default, the system will return morphosyntactic forms for
+    the given token. Otherwise, it will treat the word form as a type and return all its tokens with 
+    their morphosytactic analysis. 
+    > `/forms/руке?oblique="yes"` => руке (gen. sg), руке (nom. pl); 
+    > `/forms/рука?oblique="no"` => рука, руке, руци, руку etc. 
+    > `/forms/руке?oblique="yes"` => will result in an error because there is no lemma "руке" 
+    
+    + id = `yes` (optional, boolean) ... Include the id of the form in response. 
+    + orth = `yes` (optional, boolean) ... Include the orth of the form in response.
     + lemma = `yes` (optional, boolean) ... Include the lemma of the form in response. 
     + multext = `yes` (optional, boolean) ... Include the morphosyntactic analysis of the form in response. 
+
 
 + Response 200 (application/json)
 
