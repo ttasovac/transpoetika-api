@@ -22,13 +22,11 @@ The Transpoetika API distinguishes between the actual data returned in the body 
 
 In this intitial development stage, we will use custom HTTP headers for pagination etc. but are likely to eventually opt for the Link header in accordance with [RFC5988](http://tools.ietf.org/html/rfc5988#page-6).
 
-# Group Forms
+# Forms [/forms/{wordForm}?fields=limit,offset,paradigm,id,form,lemma,ana]
 Resources representing formographic forms, lemmas and
-morphsyntactic specifications of individual word forms. 
+morphsyntactic specifications of individual word forms.
 
-## Morphosyntactic Forms [/forms/{wordForm}?fields=limit,offset,paradigm,id,form,lemma,ana]
-
-### List all forms [GET]
+# Retrieve All Forms [GET]
 
 + Parameters
 
