@@ -1,100 +1,97 @@
 FORMAT: 1A
 HOST: https://api.transpoetika.org/v1
 
-# Transpoetika SLaWS API
-Transpoetika API is a Serbian Lexical Web Service (SLaWS) developed at the Belgrade Center for Digital Humanities. 
-
-This is a work in progress and subject to significant change. 
+# Transpoetika API
+Transpoetika API is a *Serbian Lexical Web-Service (SLaWS)* developed at the Belgrade Center for Digital Humanities.
 
 ##Content-Type Negotiation
 Transpoetika API supports both XML and JSON via a content negotiation mechanism using HTTP headers.
-The client must send an appropriate Accept header (either application/json or application/xml) with each call. 
+The client must send an appropriate Accept header (either application/json or application/xml with each call. 
 Calls without an Accept header result in an error.
 
 The same values should be used in the Content-Type HTTP header when submitting data in the request body 
-(POST and PUT methods). 
+(POST and PUT methods). *Note*: `POST` and `PUT` methods are not implemented yet. 
 
-*Note*: `POST` and `PUT` methods are not implemented yet.
+# Group Morphology
+**Transpoetika API** resources dealing with orthographic forms, lemmas and
+morphsyntactic specifications of individual tokens. 
 
-##Data vs. Metadata?
-
-The Transpoetika API distinguishes between the actual data returned in the body of the reponse (e.g. word forms, morphosyntactic annotation etc.) and resource metadata (e.g. limits, offsets etc.) which will returned in the HTTP header.
-
-In this intitial development stage, we will use custom HTTP headers for pagination etc. but are likely to eventually opt for the Link header in accordance with [RFC5988](http://tools.ietf.org/html/rfc5988#page-6).
-
-# Group Forms
-Resources representing formographic forms, lemmas and
-morphsyntactic specifications of individual word forms. 
-
-
-## Morphosyntactic Forms [/forms/{wordForm}?fields=limit,offset,paradigm,id,form,lemma,ana]
-
-### List all forms [GET]
+## Identifying Morphosyntactic Forms [/forms/{wordForm}?fields=limit,offset,oblique,id,orth,lemma,multext]
+### List all forms for a particular token [GET]
 
 + Parameters
 
-    + wordForm (required, string) ... The requested wordForm 
+    + wordForm (required, string)
     + limit = `10` (optional, int) ... The maximum number of results to return.
     + offset = `0` (optional, int) ... The pagination of results to return.
-    + paradigm = `false` (optional, boolean) ... By default, the system will return the results for a particular `{wordForm}` as requested. If true, it will return a full paradigm of the `{wordForm}` instead.  
-    > `/forms/руке?paradigm="false"` => руке (gen. sg), руке (nom. pl.), руке (acc. pl.)
-    > 
-    > `/forms/руке?paradigm="true"` => рука, руке, руци, руку etc. 
-    >
-    + id = `true` (optional, boolean) ... Include the id of the form in the response. 
-    + form = `true` (optional, boolean) ... Include the form in the response.
-    + lemma = `true` (optional, boolean) ... Include the lemma of the form in the response. 
-    + ana = `true` (optional, boolean) ... Include the morphosyntactic analysis of the form in the response. 
+    + oblique = `yes` (optional, boolean) ... By default, the system will return morphosyntactic forms for
+    the given token. Otherwise, it will treat the word form as a type and return all its tokens with 
+    their morphosytactic analysis. 
+    > `/forms/руке?oblique="yes"` => руке (gen. sg), руке (nom. pl); 
+    > `/forms/рука?oblique="no"` => рука, руке, руци, руку etc. 
+    > `/forms/руке?oblique="yes"` => will result in an error because there is no lemma "руке" 
+    
+    + id = `yes` (optional, boolean) ... Include the id of the form in response. 
+    + orth = `yes` (optional, boolean) ... Include the orth of the form in response.
+    + lemma = `yes` (optional, boolean) ... Include the lemma of the form in response. 
+    + multext = `yes` (optional, boolean) ... Include the morphosyntactic analysis of the form in response. 
 
 
 + Response 200 (application/json)
-    
-    + Header
-        
-            Х-Тotal-Count: 2 (required, number) ... Total count of resources available
-            Х-Limit: 10 (optional, number)  
-            Х-Offset: 0 (optional, number)
+
 
     + Body
 
             ```
-            [
-                {
-                    "id": 1, 
-                    "form": "руке", 
-                    "lemma": "рука",     
-                    "ana": "Ngsjdjf"
-                }, {
-                    "id": 2, 
-                    "form": "руке", 
-                    "lemma": "рука",     
-                    "ana": "Nnpkdjf"
-                }
-            ]
+            [{
+              "id": 1, "orth": "руку", "lemma": "рука",     "multext": Nasjdjf
+            }, {
+              "id": 2, "orth": "руци", "lemma": "рука",     "multext": Njfkdjf
+            }]
             ```
 
 + Response 200 (application/xml)
-    
-    + Header
+
+            <meta>
+                <total>10</total>
+                <limit>10</limit>
+                <offset>0</offset>
+            </meta>
+            <dictionary>
+                <forms>
+                    <id>1</id>
+                    <orth>руку</orth>
+                    <lemma>рука</lemma>
+                    <multext>Nasjdjf</multext>
+                </forms>
+            </dictionary>
             
-            Х-Тotal-Count: 2 (required, number) ... Total count of resources available
-            Х-Limit: 10 (optional, number)  
-            Х-Offset: 0 (optional, number)
+
+### Create a Form [POST]
++ Request (application/json)
+
+        { "title": "Buy cheese and bread for breakfast." }
+
++ Response 201 (application/json)
+
+        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+
+## Note [/notes/{id}]
+A single Form object with all its details
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
+
+### Retrieve a Form [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-My-Header: The Value
 
     + Body
 
-            <data>
-                <forms>
-                    <id>1</id>
-                    <form>руке</form>
-                    <lemma>рука</lemma>
-                    <ana>Nasjdjf</ana>
-                </forms>
-                <forms>
-                    <id>1</id>
-                    <form>руке</form>
-                    <lemma>рука</lemma>
-                    <ana>Nnpkdjf</ana>
-                </forms>
-            </data>
-            
+            { "id": 2, "title": "Pick-up posters from post-office" }
+
+### Remove a Form [DELETE]
++ Response 204
