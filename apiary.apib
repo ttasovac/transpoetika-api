@@ -71,7 +71,31 @@ morphsyntactic specifications of individual word forms.
                 }
             ]
 
++ Response 200 (application/xml)
+    
+    + Headers
             
+                X-Total-Count: 42 (required, number) ... Total count of resources available
+                X-Limit: 10
+                X-Offset: 0
+
+    + Body
+
+            <data>
+                <forms>
+                    <id>1</id>
+                    <form>руке</form>
+                    <lemma>рука</lemma>
+                    <ana>Nasjdjf</ana>
+                </forms>
+                <forms>
+                    <id>1</id>
+                    <form>руке</form>
+                    <lemma>рука</lemma>
+                    <ana>Nnpkdjf</ana>
+                </forms>
+            </data>
+                        
 
 ### Create a Form [POST]
 + Request (application/json)
