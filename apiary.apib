@@ -22,7 +22,11 @@ The Transpoetika API distinguishes between the actual data returned in the body 
 
 In this intitial development stage, we will use custom HTTP headers for pagination etc. but are likely to eventually opt for the Link header in accordance with [RFC5988](http://tools.ietf.org/html/rfc5988#page-6).
 
-# Forms [/forms/{wordForm}?fields=limit,offset,paradigm,id,form,lemma,ana]
+## Ekavian vs. Jekavian
+
+Don't have a separate parameter yet. Need to think about it more. 
+
+# Forms [/forms/{wordForm}?fields=limit,offset,paradigm,transliterate,strict,id,form,lemma,ana]
 Resources representing formographic forms, lemmas and
 morphsyntactic specifications of individual word forms.
 
@@ -34,9 +38,16 @@ morphsyntactic specifications of individual word forms.
     + limit = `10` (optional, int) ... The maximum number of results to return.
     + offset = `0` (optional, int) ... The pagination of results to return.
     + paradigm = `false` (optional, boolean) ... By default, the system will return the results for a particular `{wordForm}` as requested. If true, it will return a full paradigm of the `{wordForm}` instead.  
-    > `/forms/руке?paradigm="false"` => руке (gen. sg), руке (nom. pl.), руке (acc. pl.)
+    > `/forms/руке?paradigm=false` => руке (gen. sg), руке (nom. pl.), руке (acc. pl.)
     > 
-    > `/forms/руке?paradigm="true"` => рука, руке, руци, руку etc. 
+    > `/forms/руке?paradigm=true` => рука, руке, руци, руку etc. 
+    >
+    
+    + transliterate = `false` (optional, boolean) ... Transliterate the `wordForm` from Latin to Cyrillic.
+    + strict = `true` (optional, boolean) ... If transliterate is set to `true` and strict is set to `false`, the system will try to match and offer results for loose transliteration:
+    > `/forms/reci?transliterate=true&strict=true` => реци
+    > 
+    > `/forms/reci?transliterate=true&strict=false`  => реци, рећи, речи. 
     >
     
     + id = `true` (optional, boolean) ... Include the id of the form in the response. 
@@ -87,7 +98,7 @@ morphsyntactic specifications of individual word forms.
                     <ana>Nasjdjf</ana>
                 </forms>
                 <forms>
-                    <id>1</id>
+                    <id>2</id>
                     <form>руке</form>
                     <lemma>рука</lemma>
                     <ana>Nnpkdjf</ana>
