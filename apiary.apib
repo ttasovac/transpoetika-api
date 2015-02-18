@@ -30,14 +30,15 @@ In this intitial development stage, we will use custom HTTP headers for paginati
 Don't have a separate parameter yet. Need to think about it more. 
 
 # Forms [/forms/{wordForm}?fields=limit,offset,paradigm,transliterate,strict,created_since,modified_since,id,form,lemma,ana]
-Resources representing formographic forms, lemmas and
+Resources representing forms, lemmas and
 morphsyntactic specifications of individual word forms.
 
 # Retrieve All Forms [GET]
 
 + Parameters
 
-    + wordForm (optional, string) ... The requested wordForm. If no form provided, then all forms from the db are returned, taking however into consideration limits and offsets. (We will have to impose maximum limits etc. but we can deal with that later when we introduce authentication etc.
+    + wordForm (optional, string) ... The requested wordForm. If no form provided, then all forms from the db are returned, taking however into consideration limits and offsets. 
+    (We will have to impose maximum limits etc. but we can deal with that later when we introduce authentication etc.)
     + limit = `10` (optional, number) ... The maximum number of results to return.
     + offset = `0` (optional, number) ... The pagination of results to return.
     + paradigm = `false` (optional, boolean) ... By default, the system will return the results for a particular `{wordForm}` as requested. If true, it will return a full paradigm of the `{wordForm}` instead.  
