@@ -29,7 +29,7 @@ In this intitial development stage, we will use custom HTTP headers for paginati
 
 Don't have a separate parameter yet. Need to think about it more. 
 
-# Forms [/forms/{wordForm}?fields=limit,offset,paradigm,transliterate,strict,created_since,modified_since,id,form,lemma,ana]
+# Forms [/forms/{wordForm}?fields=limit,offset,filter,paradigm,transliterate,strict,created_since,modified_since,id,form,lemma,ana]
 Resources representing forms, lemmas and
 morphsyntactic specifications of individual word forms.
 
@@ -41,13 +41,14 @@ morphsyntactic specifications of individual word forms.
     (We will have to impose maximum limits etc. but we can deal with that later when we introduce authentication etc.)
     + limit = `10` (optional, number) ... The maximum number of results to return.
     + offset = `0` (optional, number) ... The pagination of results to return.
+    + filter = `*` (optional, string) ... Filters results based on the MULTEXT-East notation: `*` returns all forms, `N*` returns all nouns, `Nc*` all common nouns, `Nps*` proper nouns in the singular etc. 
     + paradigm = `false` (optional, boolean) ... By default, the system will return the results for a particular `{wordForm}` as requested. If true, it will return a full paradigm of the `{wordForm}` instead.  
     > `/forms/руке?paradigm=false` => руке (gen. sg), руке (nom. pl.), руке (acc. pl.)
     > 
     > `/forms/руке?paradigm=true` => рука, руке, руци, руку etc. 
     >
     
-    + transliterate = `false` (optional, boolean) ... Transliterate the `wordForm` from Latin to Cyrillic.
+    + transliterate = `false` (optional, boolean) ... Transliterate the `wordForm` from Latin to Cyrillic on the input only. This doesn't affect the output. 
     + strict = `true` (optional, boolean) ... If transliterate is set to `true` and strict is set to `false`, the system will try to match and offer results for loose transliteration:
     > `/forms/reci?transliterate=true&strict=true` => реци
     > 
