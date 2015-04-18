@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://api.transpoetika.org/v1
+HOST: https://api.slaws.info/v1
 
 # Transpoetika SLaWS API
 Transpoetika API is a Serbian Lexical Web Service (SLaWS) developed at the Belgrade Center for Digital Humanities. 
@@ -29,7 +29,7 @@ In this intitial development stage, we will use custom HTTP headers for paginati
 
 Don't have a separate parameter yet. Need to think about it more. 
 
-# Forms [/forms/{wordForm}?fields=limit,offset,filter,paradigm,transliterate,strict,created_since,modified_since,id,form,lemma,ana]
+# Forms [/forms/{wordForm}?fields=limit,offset,filter,paradigm,transliterate,strict,created_since,modified_since,id,form,lemma,msd]
 Resources representing forms, lemmas and
 morphsyntactic specifications of individual word forms.
 
@@ -39,6 +39,7 @@ morphsyntactic specifications of individual word forms.
 
     + wordForm (optional, string) ... The requested wordForm. If no form provided, then all forms from the db are returned, taking however into consideration limits and offsets. 
     (We will have to impose maximum limits etc. but we can deal with that later when we introduce authentication etc.)
+    + apikey = (required, string) ... API Key
     + limit = `10` (optional, number) ... The maximum number of results to return.
     + offset = `0` (optional, number) ... The pagination of results to return.
     + filter = `*` (optional, string) ... Filters results based on the MULTEXT-East notation: `*` returns all forms, `N*` returns all nouns, `Nc*` all common nouns, `Nps*` proper nouns in the singular etc. 
@@ -59,7 +60,7 @@ morphsyntactic specifications of individual word forms.
     + id = `true` (optional, boolean) ... Include the id of the form in the response. 
     + form = `true` (optional, boolean) ... Include the form in the response.
     + lemma = `true` (optional, boolean) ... Include the lemma of the form in the response. 
-    + ana = `true` (optional, boolean) ... Include the morphosyntactic analysis of the form in the response. 
+    + msd = `true` (optional, boolean) ... Include the morphosyntactic analysis of the form in the response. 
 
 
 + Response 200 (application/json)
