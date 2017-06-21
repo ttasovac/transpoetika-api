@@ -6,28 +6,6 @@ Raskovnik API is a Serbian Lexical Web Service (SLaWS) developed at the Belgrade
 
 This is a work in progress and subject to significant change.
 
-##http vs. https?
-Will use https. Not set up yet.
-
-##Content-Type Negotiation
-Raskovnik API supports both XML and JSON via a content negotiation mechanism using HTTP headers.
-The client must send an appropriate Accept header (either application/json or application/xml) with each call. 
-Calls without an Accept header result in an error.
-
-The same values should be used in the Content-Type HTTP header when submitting data in the request body 
-(POST and PUT methods). 
-
-*Note*: `POST` and `PUT` methods are not implemented yet.
-
-##Data vs. Metadata?
-
-The Transpoetika API distinguishes between the actual data returned in the body of the reponse (e.g. word forms, morphosyntactic annotation etc.) and resource metadata (e.g. limits, offsets etc.) which will returned in the HTTP header.
-
-In this intitial development stage, we will use custom HTTP headers for pagination etc. but are likely to eventually opt for the Link header in accordance with [RFC5988](http://tools.ietf.org/html/rfc5988#page-6).
-
-## Ekavian vs. Jekavian
-
-Don't have a separate parameter yet. Need to think about it more. 
 
 # Forms [/forms/{wordForm}?fields=apikey,limit,offset,filter,paradigm,transliterate,strict,created_since,modified_since,id,form,lemma,msd]
 Resources representing forms, lemmas and
